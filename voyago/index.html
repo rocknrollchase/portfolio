@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Voyago — платформа для командировок и MICE</title>
+<meta name="description" content="Платформа Voyago обеспечивает бесперебойный сервис по бронированию командировок и MICE мероприятий." />
+<meta name="theme-color" content="#000000" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --bg-muted:#f4f4f5;
+  --ink:#000000; --text-strong:#25282d; --text-muted:#616268; --text-faint:#d0d4d6;
+  --dark-panel:#2a2d33; --dark-panel-2:#26282d;
+  --surface-wave:#cacaca;
+  --accent-blue:#1f5fad;
+  --line:#e4e4e4;
+  --sticky-tag:#fbe54d;
+  --radius-card:4px; --radius-pill:9999px;
+  --font-serif:'Playfair Display',Georgia,'Times New Roman',serif;
+  --font-sans:'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text-strong);font-family:var(--font-sans);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+ul{list-style:none}
+img{display:block;max-width:100%}
+.shell{max-width:1280px;margin-inline:auto;padding-inline:24px}
+@media (max-width:640px){ .shell{padding-inline:16px} }
+.serif{font-family:var(--font-serif)}
+.eyebrow{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease-out, transform .5s ease-out}
+.reveal.in{opacity:1;transform:translateY(0)}
+.rule-short{width:60px;height:2px;background:#000;margin-top:16px}
+.btn-block{display:block;width:100%;text-align:center;background:#000;color:#fff;border-radius:var(--radius-card);padding:16px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:.85rem;transition:opacity .2s}
+.btn-block:hover{opacity:.85}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:18px}
+.field label{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
+.field input,.field select,.field textarea{
+  border:none;border-bottom:1px solid #000;background:transparent;
+  font-family:var(--font-serif);font-style:italic;font-size:1rem;padding-block:8px;outline:none;color:#000;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-bottom-color:var(--accent-blue)}
+.consent{font-size:.75rem;color:var(--text-muted);margin-bottom:16px;line-height:1.5}
+.consent a{text-decoration:underline}
+.card{border:1px solid var(--line);border-radius:var(--radius-card);padding:24px}
+.card-img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px;margin-bottom:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+@media (max-width:1024px){ .grid-3{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:640px){ .grid-3,.grid-2{grid-template-columns:1fr} }
+
+/* cookie banner */
+#cookie-banner{
+  position:fixed;left:16px;bottom:16px;z-index:200;max-width:340px;
+  background:var(--bg-muted);border-radius:var(--radius-card);padding:16px;
+  box-shadow:0 4px 20px rgba(0,0,0,.12);font-size:.85rem;line-height:1.5;
+  transition:opacity .3s, transform .3s;
+}
+#cookie-banner.hidden{opacity:0;transform:translateY(12px);pointer-events:none}
+#cookie-banner a{text-decoration:underline}
+#cookie-banner button{margin-top:12px;width:100%}
+
+/* header */
+header.site{
+  position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--line);
+}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding-block:16px;gap:16px}
+.logo{display:flex;align-items:center;gap:8px;font-family:var(--font-serif);font-weight:700;font-size:1.125rem;letter-spacing:.04em;text-transform:uppercase}
+.logo .mark{width:14px;height:14px;background:var(--accent-blue);border-radius:3px;flex-shrink:0}
+nav.primary{display:none;gap:32px;font-size:.875rem}
+nav.primary a{display:inline-flex;align-items:center;gap:4px;transition:opacity .2s}
+nav.primary a:hover{opacity:.6}
+nav.primary .caret{font-size:.65rem;opacity:.6}
+.header-right{display:flex;align-items:center;gap:20px;font-size:.875rem}
+.header-right .login{display:none;align-items:center;gap:6px}
+.header-right .icon-link{display:none}
+.header-right .phone{display:none;align-items:center;gap:6px;font-weight:500}
+.hamburger{display:inline-flex;flex-direction:column;gap:4px;padding:8px}
+.hamburger span{width:20px;height:2px;background:#000}
+@media (min-width:1024px){
+  nav.primary{display:flex}
+  .header-right .login,.header-right .icon-link,.header-right .phone{display:flex}
+  .hamburger{display:none}
+}
+#mobile-nav{display:none;flex-direction:column;border-top:1px solid var(--line);padding:16px 24px;gap:14px;font-size:1rem}
+#mobile-nav.open{display:flex}
+@media (min-width:1024px){ #mobile-nav{display:none !important} }
+
+/* hero */
+.hero{position:relative;min-height:640px;display:flex;align-items:center;overflow:hidden;color:#fff}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.04)}
+.hero-fade{position:absolute;inset:0;background:linear-gradient(100deg,rgba(0,0,0,.9) 0%,rgba(0,0,0,.7) 32%,rgba(0,0,0,.42) 58%,rgba(0,0,0,.3) 100%)}
+.hero-content{position:relative;z-index:2;padding-block:64px}
+.hero h1{font-family:var(--font-serif);font-size:3.25rem;line-height:1.05;font-weight:600;max-width:14ch}
+.hero h1 em{font-style:italic;font-weight:400}
+@media (max-width:640px){ .hero h1{font-size:2rem} .hero{min-height:520px} }
+.hero .subhead{margin-top:24px;max-width:480px;color:rgba(255,255,255,.78);font-size:1rem;line-height:1.6}
+.hero-actions{margin-top:32px}
+.hero .btn-block{border-radius:var(--radius-pill);background:#fff;color:var(--ink)}
+.reg-card{display:inline-flex;align-items:center;gap:8px;margin-top:24px;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);border-radius:var(--radius-pill);padding:10px 18px;font-size:.8rem;color:rgba(255,255,255,.9)}
+.reg-card .dot{width:8px;height:8px;border-radius:50%;background:var(--accent-blue);flex-shrink:0}
+.hero-wordmark{position:absolute;left:0;right:0;bottom:-0.18em;text-align:center;z-index:1;font-family:var(--font-serif);font-weight:700;font-size:11vw;line-height:1;color:rgba(255,255,255,.14);letter-spacing:.02em;white-space:nowrap;pointer-events:none}
+@media (max-width:640px){ .hero-wordmark{display:none} }
+
+/* features */
+.features{padding-block:64px}
+.features h2{font-family:var(--font-serif);font-size:1.75rem;font-weight:600;margin-bottom:40px;max-width:28ch}
+.feature-card{display:flex;flex-direction:column;gap:16px}
+.feature-icon{width:32px;height:32px;border-radius:6px;background:var(--bg-muted);display:grid;place-items:center;color:var(--accent-blue);font-size:1rem;font-weight:700}
+.feature-card h3{font-size:1.0625rem;font-weight:600;line-height:1.35}
+
+/* split sections (events tracker / cost analytics) */
+.split{padding-block:64px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+@media (max-width:1024px){ .split{grid-template-columns:1fr} }
+.split.reverse .split-media{order:2}
+.split-text h3{font-family:var(--font-serif);font-size:1.75rem;font-weight:600;margin-top:8px;max-width:20ch}
+.phone-photo{
+  width:100%;max-width:420px;margin-inline:auto;display:block;border-radius:12px;
+  box-shadow:0 20px 50px rgba(0,0,0,.15);
+}
+.dashboard-mock{
+  border:1px solid var(--line);border-radius:8px;padding:24px;background:var(--bg-muted);
+}
+.bars{display:flex;align-items:flex-end;gap:10px;height:120px}
+.bars div{flex:1;background:var(--accent-blue);border-radius:4px 4px 0 0;opacity:.75}
+
+/* security */
+.security{padding-block:64px}
+.security h2{font-family:var(--font-serif);font-size:1.75rem;font-weight:600;margin-bottom:40px;max-width:24ch}
+.security-card .thumb{aspect-ratio:4/3;border-radius:4px;background-color:#e9ecef;background-size:cover;background-position:center;margin-bottom:14px}
+.security-card .eyebrow{display:block;margin-bottom:10px}
+.security-card h3{font-size:1rem;font-weight:600;line-height:1.4}
+
+/* demo form */
+.demo-form-section{background:var(--bg-muted);border-radius:8px;padding:48px;margin-block:64px}
+.shell .demo-form-section{margin-inline:0}
+@media (max-width:1024px){ .demo-form-section{padding:28px} .demo-form-section .grid-2{grid-template-columns:1fr} }
+.demo-form-section h3{font-family:var(--font-serif);font-size:1.5rem;font-weight:600;max-width:24ch}
+.manager{display:flex;align-items:center;gap:14px;margin-top:28px}
+.manager .avatar{width:56px;height:56px;border-radius:50%;background:#ddd;flex-shrink:0;object-fit:cover}
+.manager .name{font-weight:600;font-size:.95rem}
+.manager .role{font-size:.8rem;color:var(--text-muted)}
+.form-success{display:none;align-items:center;gap:10px;font-weight:600}
+.form-success.show{display:flex}
+.form-success .check{width:24px;height:24px;border-radius:50%;background:#1f8a4c;color:#fff;display:grid;place-items:center;font-size:.85rem}
+
+/* integration logos */
+.int-logos{padding-block:64px}
+.int-logos h3{font-family:var(--font-serif);font-size:1.5rem;font-weight:600;margin-bottom:32px;max-width:30ch}
+.logo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:640px){ .logo-grid{grid-template-columns:repeat(2,1fr)} }
+.logo-tile{border:1px solid var(--line);border-radius:4px;aspect-ratio:2/1;display:grid;place-items:center;padding:24px}
+.logo-tile img{max-width:100%;max-height:48px;width:auto;height:auto}
+.int-label{font-size:14px;font-weight:600;color:var(--text-muted);text-align:center;letter-spacing:.3px}
+
+/* integration cards / portfolio */
+.int-cards,.research,.portfolio{padding-block:48px}
+.int-cards h3,.research h3,.portfolio h3{font-family:var(--font-serif);font-size:1.375rem;font-weight:600;margin-bottom:28px}
+.card h4{font-size:1rem;font-weight:600;margin-bottom:8px}
+.card p{font-size:.875rem;color:var(--text-muted);line-height:1.55}
+
+/* awards */
+.awards{padding-block:64px}
+.awards h2{font-family:var(--font-serif);font-size:1.75rem;font-weight:600;margin-bottom:40px}
+.award-card{position:relative}
+.wow-tag{
+  display:inline-block;background:var(--sticky-tag);transform:rotate(-3deg);padding:4px 10px;
+  font-size:.7rem;font-weight:700;box-shadow:1px 2px 4px rgba(0,0,0,.15);margin-bottom:14px;
+}
+.award-card h3{font-family:var(--font-serif);font-size:1.375rem;font-weight:600;line-height:1.3}
+.award-card p{margin-top:12px;font-size:.875rem;color:var(--text-muted);line-height:1.6}
+
+/* contact form 2 */
+.contact2{
+  padding-block:80px;position:relative;overflow:hidden;
+  background:
+    repeating-linear-gradient(100deg, rgba(255,255,255,.5) 0 2px, transparent 2px 40px),
+    var(--surface-wave);
+}
+.contact2-inner{max-width:480px;margin-left:auto}
+.contact2 h3{font-family:var(--font-serif);font-size:1.625rem;font-weight:600}
+
+/* info links dark block */
+.info-links{background:var(--dark-panel);color:#fff;padding-block:64px}
+.info-links .eyebrow{color:rgba(255,255,255,.6);letter-spacing:.15em}
+.info-links .rule{border-bottom:1px solid rgba(255,255,255,.2);margin:16px 0 32px}
+.info-row{display:flex;flex-wrap:wrap;gap:48px;margin-bottom:32px}
+.info-col{display:flex;flex-direction:column;gap:10px}
+.info-row a,.info-row2 a{font-family:var(--font-serif);font-size:.95rem;color:rgba(255,255,255,.85);transition:color .2s}
+.info-row a:hover,.info-row2 a:hover{color:#fff;text-decoration:underline}
+.info-row2{display:flex;flex-wrap:wrap;gap:20px;font-size:.875rem}
+
+/* footer */
+footer.site{background:var(--dark-panel-2);padding-block:24px;color:rgba(255,255,255,.5);font-size:.8rem}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+
+/* sticky badge */
+#sticky-badge{
+  position:fixed;bottom:24px;right:24px;z-index:150;background:#e8e8e8;
+  border-radius:9999px 9999px 9999px 4px;padding:14px 20px;display:flex;align-items:center;gap:10px;
+  box-shadow:0 6px 20px rgba(0,0,0,.15);font-size:.85rem;
+}
+#sticky-badge .tag{font-size:.7rem;color:var(--text-muted)}
+#sticky-badge .acc-dot{
+  position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:var(--accent-blue);
+}
+@media (max-width:640px){ #sticky-badge{padding:10px 16px;font-size:.78rem} }
+
+@media (prefers-reduced-motion: reduce){ *{transition:none !important} }
+</style>
+</head>
+<body>
+
+<a href="#main" class="sr-only">Skip to content</a>
+
+<div id="cookie-banner">
+  Наш сайт использует файлы Cookie 🍪. Мы используем файлы Cookie, чтобы пользоваться сайтом было удобно. Оставаясь на сайте, Вы соглашаетесь на использование нами Ваших Cookie файлов. <a href="#">Подробнее</a>
+  <button id="cookie-accept">Принять</button>
+</div>
+
+<header class="site">
+  <div class="shell header-inner">
+    <a class="logo" href="#main"><span class="mark"></span>Voyago</a>
+    <nav class="primary">
+      <a href="#company">Компания <span class="caret">▾</span></a>
+      <a href="#services">Услуги <span class="caret">▾</span></a>
+      <a href="#mice">MICE <span class="caret">▾</span></a>
+      <a href="#visas">Визы <span class="caret">▾</span></a>
+      <a href="#prices">Цены</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <div class="header-right">
+      <a class="login" href="#login">→] Вход</a>
+      <a class="icon-link" href="mailto:info@voyago.ru" aria-label="Email">✉</a>
+      <a class="phone" href="tel:+78001011824">📞 +7 (800) 101-18-24</a>
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-nav">
+    <a href="#company">Компания</a>
+    <a href="#services">Услуги</a>
+    <a href="#mice">MICE</a>
+    <a href="#visas">Визы</a>
+    <a href="#prices">Цены</a>
+    <a href="#contacts">Контакты</a>
+    <a href="tel:+78001011824">+7 (800) 101-18-24</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="hero-bg" style="background-image:url('assets/hero-bg.jpg')"></div>
+    <div class="hero-fade"></div>
+    <div class="shell hero-content">
+      <h1 class="reveal">Современная <em>online-</em>платформа для управления командировками и MICE</h1>
+      <p class="subhead reveal">Платформа Voyago обеспечивает бесперебойный сервис по бронированию командировок и MICE мероприятий</p>
+      <div class="hero-actions reveal">
+        <a href="#demo-form" class="btn-block" style="display:inline-flex;width:auto;padding:14px 28px">Записаться на демо</a>
+      </div>
+      <div class="reg-card reveal"><span class="dot"></span> Облачная платформа с интеграцией в корпоративные системы учёта</div>
+    </div>
+    <div class="hero-wordmark" aria-hidden="true">VOYAGO</div>
+  </section>
+
+  <section class="features">
+    <div class="shell">
+      <h2 class="reveal">Сервис <em class="serif" style="font-style:italic">нового поколения</em> для управления командировками и MICE</h2>
+      <div class="grid-3" id="features-grid">
+        <!-- feature cards injected-ish via static markup -->
+      </div>
+    </div>
+  </section>
+
+  <section class="split">
+    <div class="shell" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;width:100%">
+      <div class="split-text reveal">
+        <span class="eyebrow">Мероприятия</span>
+        <h3>Трекер по отслеживанию <em style="font-style:italic">групповых заказов</em> в режиме онлайн</h3>
+      </div>
+      <div class="split-media reveal">
+        <img class="phone-photo" src="assets/events-hand-phone.jpg" alt="Трекер групповых заказов в приложении Voyago" />
+      </div>
+    </div>
+  </section>
+
+  <section class="split reverse">
+    <div class="shell" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;width:100%">
+      <div class="split-media reveal" style="order:2">
+        <div class="dashboard-mock">
+          <div class="bars">
+            <div style="height:40%"></div>
+            <div style="height:70%"></div>
+            <div style="height:55%"></div>
+            <div style="height:90%"></div>
+            <div style="height:65%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="split-text reveal" style="order:1">
+        <span class="eyebrow">Аналитика затрат</span>
+        <h3>Бенчмаркинг расходов на командировки и MICE</h3>
+      </div>
+    </div>
+  </section>
+
+  <section class="security" id="services">
+    <div class="shell">
+      <h2 class="reveal">Персональные данные защищены по закону <em style="font-style:italic">ФЗ-152</em></h2>
+      <div class="grid-3" id="security-grid"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shell">
+      <div class="demo-form-section">
+        <div class="grid-2">
+          <div class="reveal">
+            <h3>Оставьте контакты, и мы проведем бесплатную экскурсию по сервису!</h3>
+            <div class="manager">
+              <img class="avatar" src="assets/manager-elena.jpg" alt="Елена, менеджер по работе с клиентами" />
+              <div>
+                <div class="name">Елена</div>
+                <div class="role">Менеджер по работе с клиентами в Voyago</div>
+              </div>
+            </div>
+          </div>
+          <form id="demo-form" class="reveal">
+            <div class="field"><label>Ваше имя</label><input type="text" placeholder="Ваше имя" /></div>
+            <div class="field"><label>Название компании</label><input type="text" placeholder="Название компании" /></div>
+            <div class="field"><label>Должность сотрудника</label><input type="text" placeholder="Должность сотрудника" /></div>
+            <div class="field">
+              <label>Командировок в компании</label>
+              <select>
+                <option>Затрудняюсь</option>
+                <option>1-5</option>
+                <option>5-10</option>
+                <option>10-30</option>
+                <option>30-50</option>
+                <option>более 50</option>
+              </select>
+            </div>
+            <div class="field"><label>Электронная почта*</label><input type="email" required placeholder="Электронная почта*" /></div>
+            <p class="consent">Нажимая кнопку «Записаться на демо» я даю согласие на <a href="#">обработку моих персональных данных</a>.</p>
+            <button type="submit" class="btn-block">Записаться на демо</button>
+            <div class="form-success"><span class="check">✓</span> Отправлено</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="int-logos" id="company">
+    <div class="shell">
+      <h3 class="reveal">Платформа справится с корпоративными вопросами на любом этаже</h3>
+      <div class="logo-grid">
+        <div class="logo-tile reveal"><span class="int-label">Документооборот</span></div>
+        <div class="logo-tile reveal"><span class="int-label">ERP-системы</span></div>
+        <div class="logo-tile reveal"><span class="int-label">Бухгалтерия</span></div>
+        <div class="logo-tile reveal"><span class="int-label">CRM</span></div>
+        <div class="logo-tile reveal"><span class="int-label">Почта и календарь</span></div>
+        <div class="logo-tile reveal"><span class="int-label">HR-системы</span></div>
+        <div class="logo-tile reveal"><span class="int-label">Корпоративный SSO</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="int-cards" id="mice">
+    <div class="shell">
+      <h3 class="reveal">Интеграции и автоматизация</h3>
+      <div class="grid-3">
+        <div class="card reveal">
+          <img class="card-img" src="assets/card-code.jpg" alt="1С / SAP" />
+          <h4>1С / SAP</h4>
+          <p>Прямая интеграция с учётными системами компании — авансовые отчёты и приказы формируются автоматически, без двойного ввода данных.</p>
+        </div>
+        <div class="card reveal">
+          <img class="card-img" src="assets/card-woman-phone.jpg" alt="Яндекс Такси" />
+          <h4>Яндекс Такси</h4>
+          <p>Бронирование такси для сотрудников прямо из платформы — без отдельных заявок и согласований.</p>
+        </div>
+        <div class="card reveal">
+          <img class="card-img" src="assets/card-laptop-chart.jpg" alt="Кибербезопасность" />
+          <h4>Кибербезопасность</h4>
+          <p>Мониторинг серверов и многоэтапная проверка от киберугроз для защиты персональных данных сотрудников.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="awards" id="visas">
+    <div class="shell">
+      <h2 class="reveal">Награды</h2>
+      <div class="grid-3" id="awards-grid"></div>
+    </div>
+  </section>
+
+  <section class="research">
+    <div class="shell">
+      <h3 class="reveal">Исследования и материалы</h3>
+      <div class="grid-3">
+        <div class="card reveal">
+          <img class="card-img" src="assets/portfolio-1.jpg" alt="Исследование МГУ" />
+          <h4>Исследование МГУ</h4>
+          <p>Совместное исследование эффективности автоматизации командировочных процессов в крупных компаниях.</p>
+        </div>
+        <div class="card reveal">
+          <img class="card-img" src="assets/portfolio-3.jpg" alt="Экономия на командировках" />
+          <h4>Экономия на командировках</h4>
+          <p>Как автоматизация бронирования снижает затраты на деловые поездки в среднем по отрасли.</p>
+        </div>
+        <div class="card reveal">
+          <img class="card-img" src="assets/research-bg.jpg" alt="Авансовый отчёт без бумаги" />
+          <h4>Авансовый отчёт без бумаги</h4>
+          <p>Перевод авансовых отчётов в электронный вид: сроки, экономия и опыт внедрения.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="portfolio" id="prices">
+    <div class="shell">
+      <h3 class="reveal">Портфолио и интеграции</h3>
+      <div class="grid-3">
+        <div class="card reveal"><img class="card-img" src="assets/portfolio-2.jpg" alt="Учётные системы" /><h4>Учётные системы</h4><p>Подключение к 1С, SAP и другим корпоративным системам учёта.</p></div>
+        <div class="card reveal"><img class="card-img" src="assets/card-code.jpg" alt="1С / SAP" /><h4>1С / SAP</h4><p>Синхронизация командировочных данных без ручного переноса.</p></div>
+        <div class="card reveal"><img class="card-img" src="assets/security-1.jpg" alt="Авансовые отчёты" /><h4>Авансовые отчёты</h4><p>Автоматическое формирование и подписание отчётов УКЭП/ПЭП.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact2" id="contacts">
+    <div class="shell">
+      <div class="contact2-inner reveal">
+        <h3>Обращайтесь к нам, и мы будем рады принести вам пользу</h3>
+        <form id="contact-form-2" style="margin-top:24px">
+          <div class="field"><label>Ваше имя</label><input type="text" placeholder="Ваше имя" /></div>
+          <div class="field"><label>E-mail*</label><input type="email" required placeholder="E-mail*" /></div>
+          <div class="field"><label>Контакты</label><input type="text" placeholder="Контакты" /></div>
+          <div class="field"><label>Комментарий</label><textarea rows="3" placeholder="Комментарий"></textarea></div>
+          <p class="consent">Нажимая кнопку «Отправить» я даю согласие на <a href="#">обработку моих персональных данных</a></p>
+          <button type="submit" class="btn-block">Отправить</button>
+          <div class="form-success"><span class="check">✓</span> Отправлено</div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="info-links">
+  <div class="shell">
+    <span class="eyebrow">Информация</span>
+    <div class="rule"></div>
+    <div class="info-row">
+      <div class="info-col"><a href="#">О нас</a><a href="#">Контакты</a><a href="#">Блог</a></div>
+      <div class="info-col"><a href="#">Командировки</a><a href="#">MICE</a></div>
+      <div class="info-col"><a href="#">Карьера</a><a href="#">Цены</a></div>
+      <div class="info-col"><a href="#">Организация командировок</a><a href="#">Портфолио</a></div>
+    </div>
+    <div class="info-row2">
+      <a href="#">Онлайн-платформа</a><a href="#">Гарантии</a><a href="#">FAQ</a><a href="#">Безопасность</a><a href="#">Интеграции</a><a href="#">Минцифры и Росреестр</a><a href="#">Политика конфиденциальности</a>
+    </div>
+  </div>
+</div>
+
+<footer class="site">
+  <div class="shell footer-inner">
+    <span>© 2026 ООО «Милленниум — командировочные решения»</span>
+  </div>
+</footer>
+
+<button id="sticky-badge">
+  <span class="acc-dot"></span>
+  Бесплатная экскурсия <span class="tag">•VOYAGO</span>
+</button>
+
+<script>
+// cookie banner
+(function(){
+  var banner = document.getElementById('cookie-banner');
+  if(localStorage.getItem('voyago_cookie_ok')){ banner.classList.add('hidden'); }
+  document.getElementById('cookie-accept').addEventListener('click', function(){
+    localStorage.setItem('voyago_cookie_ok','1');
+    banner.classList.add('hidden');
+  });
+})();
+
+// mobile nav
+(function(){
+  var btn = document.getElementById('hamburger-btn');
+  var nav = document.getElementById('mobile-nav');
+  btn.addEventListener('click', function(){ nav.classList.toggle('open'); });
+})();
+
+// feature data
+var FEATURES = [
+  "Вход по SSO без авторизации",
+  "Автоматическая загрузка ПДН",
+  "Автоматическое бронирование и выписка билетов и вауче­ров",
+  "Автоматическое подписание Приказа на командировку и Авансового отчета ПЭП",
+  "Подписание Приказа на командировку УКЭП",
+  "Встроенный модуль КриптоПро",
+  "Интеграция 1С, SAP",
+  "Размещение специальных объявлений для ваших сотрудников по производственным вопросам",
+  "Бронирование Яндекс Такси",
+  "Трекер групповых заказов"
+];
+var featuresGrid = document.getElementById('features-grid');
+FEATURES.forEach(function(text, i){
+  var div = document.createElement('div');
+  div.className = 'feature-card reveal';
+  div.innerHTML = '<div class="feature-icon">' + String(i+1).padStart(2,'0') + '</div><h3>' + text + '</h3>';
+  featuresGrid.appendChild(div);
+});
+
+var SECURITY = [
+  { text: "Несколько этапов проверки от киберугроз", img: "assets/security-1.jpg" },
+  { text: "Инструменты для контроля кибербезопасности Security Events", img: "assets/security-2.jpg" },
+  { text: "Мониторинг серверов", img: "assets/security-3.jpg" },
+  { text: "2 независимых дата-центра в Москве и Санкт-Петербурге", img: "assets/security-4.jpg" },
+  { text: "Международные стандарты безопасности", img: "assets/security-5.jpg" },
+  { text: "Гарантированное соблюдение требований ФЗ-152 и ФСТЭК", img: "assets/security-6.jpg" }
+];
+var securityGrid = document.getElementById('security-grid');
+SECURITY.forEach(function(s){
+  var div = document.createElement('div');
+  div.className = 'security-card card reveal';
+  div.innerHTML = '<div class="thumb" style="background-image:url(\'' + s.img + '\')"></div><span class="eyebrow">Безопасность</span><h3>' + s.text + '</h3>';
+  securityGrid.appendChild(div);
+});
+
+var AWARDS = [
+  { title: "Лучший организатор конференций в России" },
+  { title: "Best Partner авиакомпании Aeroflot" },
+  { title: "Лучшее Business Travel агентство" },
+  { title: "Лучший организатор конференций" },
+  { title: "Лучший агент S7 по работе с корпоративными программами" },
+  { title: "Лучший проект по оптимизации процессов", desc: "Проект «Организация эффективного командировочного учёта в крупной производственной компании за счёт внедрения трёхстороннего канала интеграции с онлайн-платформой Voyago»" }
+];
+var awardsGrid = document.getElementById('awards-grid');
+AWARDS.forEach(function(a){
+  var div = document.createElement('div');
+  div.className = 'award-card reveal';
+  div.innerHTML = '<span class="wow-tag">WOW!</span><h3>' + a.title + '</h3>' +
+    (a.desc ? '<p>' + a.desc + '</p>' : '<div class="rule-short"></div>');
+  awardsGrid.appendChild(div);
+});
+
+// reveal on scroll
+var revealEls = document.querySelectorAll('.reveal');
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry, idx){
+    if(entry.isIntersecting){
+      setTimeout(function(){ entry.target.classList.add('in'); }, idx * 40);
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach(function(el){ io.observe(el); });
+
+// stub form submit
+function stubSubmit(form){
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var btn = form.querySelector('button[type="submit"]');
+    var success = form.querySelector('.form-success');
+    var originalText = btn.textContent;
+    btn.textContent = 'Отправка…';
+    btn.disabled = true;
+    setTimeout(function(){
+      btn.style.display = 'none';
+      success.classList.add('show');
+    }, 700);
+  });
+}
+stubSubmit(document.getElementById('demo-form'));
+stubSubmit(document.getElementById('contact-form-2'));
+
+// sticky badge -> scroll to demo form
+document.getElementById('sticky-badge').addEventListener('click', function(){
+  document.getElementById('demo-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurum — студия красоты и эстетики</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#f7f1e8; --cream-dark:#efe5d6; --ink:#2b241c; --gold:#a9824a; --gold-light:#cba978; --muted:#8a7d6a;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Manrope',sans-serif;color:var(--ink);background:var(--cream);overflow-x:hidden}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:500}
+.shell{max-width:1180px;margin:0 auto;padding:0 32px}
+a{color:inherit;text-decoration:none}
+
+/* header */
+header{position:fixed;top:0;left:0;right:0;z-index:50;padding:22px 0;background:rgba(247,241,232,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(169,130,74,.15)}
+header .shell{display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Cormorant Garamond',serif;font-size:26px;letter-spacing:2px;font-weight:600;color:var(--ink)}
+.logo span{color:var(--gold)}
+nav{display:flex;gap:36px}
+nav a{font-size:14px;color:var(--muted);transition:color .2s}
+nav a:hover{color:var(--ink)}
+.book-btn{padding:11px 26px;border:1px solid var(--ink);border-radius:100px;font-size:13px;letter-spacing:.5px;transition:all .25s}
+.book-btn:hover{background:var(--ink);color:var(--cream)}
+
+/* hero */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;padding-top:90px;
+  background:radial-gradient(900px 600px at 85% 20%,rgba(203,169,120,.20),transparent 60%),var(--cream)}
+.hero .shell{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
+.eyebrow{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:22px}
+.hero h1{font-size:clamp(42px,6vw,72px);line-height:1.08;color:var(--ink)}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{margin-top:24px;font-size:18px;line-height:1.7;color:var(--muted);max-width:460px}
+.hero-cta{margin-top:38px;display:flex;gap:16px;align-items:center}
+.btn-primary{padding:16px 34px;background:var(--ink);color:var(--cream);border-radius:100px;font-size:14px;letter-spacing:.5px;transition:transform .25s}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{font-size:14px;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:2px}
+
+.hero-visual{position:relative;height:560px;border-radius:6px;overflow:hidden;
+  background:linear-gradient(165deg,rgba(233,220,196,.3),rgba(169,130,74,.3)),url('img/hero.jpg') center/cover;}
+.hero-visual::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(165deg,rgba(43,36,28,.15),rgba(43,36,28,.45));}
+.hero-visual .ring{position:absolute;width:340px;height:340px;border:1px solid rgba(255,255,255,.5);border-radius:50%;
+  top:50%;left:50%;transform:translate(-50%,-50%)}
+.hero-visual .ring2{width:240px;height:240px}
+.hero-visual .badge{position:absolute;bottom:28px;left:28px;background:rgba(255,255,255,.92);padding:18px 22px;border-radius:8px;
+  box-shadow:0 16px 40px rgba(0,0,0,.18)}
+.hero-visual .badge .num{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--ink)}
+.hero-visual .badge .lbl{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* services */
+.section{padding:120px 0}
+.section-head{max-width:560px;margin:0 auto 64px;text-align:center}
+.section-head .eyebrow{justify-content:center}
+.section-head h2{font-size:clamp(34px,4vw,46px)}
+.section-head p{margin-top:16px;color:var(--muted);font-size:16px;line-height:1.6}
+
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(169,130,74,.18);border:1px solid rgba(169,130,74,.18)}
+.service{background:var(--cream);padding:48px 36px;transition:background .3s}
+.service:hover{background:var(--cream-dark)}
+.service .ico{width:46px;height:46px;border-radius:50%;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);margin-bottom:24px}
+.service h3{font-size:24px;margin-bottom:12px}
+.service p{font-size:15px;color:var(--muted);line-height:1.6}
+.service .price{margin-top:20px;font-size:14px;color:var(--gold);font-weight:600}
+
+/* gallery strip */
+.gallery{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:16px;padding:0 32px}
+.gimg{border-radius:6px;aspect-ratio:4/5;background-size:cover;position:relative;display:flex;align-items:flex-end;padding:22px;overflow:hidden}
+.gimg span{position:relative;z-index:1;color:#fff;font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:.5px;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+.gimg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.45),transparent 55%)}
+.g1{background:linear-gradient(to top,rgba(0,0,0,.5),transparent 55%),url('img/g1.jpg') center/cover}
+.g2{background:linear-gradient(to top,rgba(0,0,0,.5),transparent 55%),url('img/g2.jpg') center/cover;aspect-ratio:4/3}
+.g3{background:linear-gradient(to top,rgba(0,0,0,.5),transparent 55%),url('img/g3.jpg') center/cover;aspect-ratio:4/3}
+
+/* testimonial */
+.quote-section{background:var(--ink);color:var(--cream);padding:110px 0;text-align:center}
+.quote-section blockquote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(26px,3vw,38px);max-width:760px;margin:0 auto;line-height:1.4}
+.quote-section .author{margin-top:28px;font-size:14px;letter-spacing:1px;color:var(--gold-light)}
+
+/* pricing/booking */
+.booking{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.booking h2{font-size:38px;margin-bottom:18px}
+.booking p{color:var(--muted);line-height:1.7;margin-bottom:28px}
+.perk{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px}
+.perk .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:8px;flex-shrink:0}
+.perk span{font-size:15px;color:var(--ink)}
+
+.form-card{background:#fff;border-radius:10px;padding:44px;box-shadow:0 30px 70px rgba(43,36,28,.10)}
+.form-card h3{font-size:24px;margin-bottom:24px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.field input,.field select{width:100%;padding:13px 16px;border:1px solid rgba(43,36,28,.15);border-radius:6px;font-family:inherit;font-size:15px;background:var(--cream)}
+.submit-btn{width:100%;padding:16px;background:var(--ink);color:var(--cream);border:none;border-radius:6px;font-size:15px;letter-spacing:.5px;cursor:pointer;margin-top:8px;transition:opacity .2s}
+.submit-btn:hover{opacity:.85}
+
+footer{padding:48px 0;border-top:1px solid rgba(169,130,74,.18);text-align:center;color:var(--muted);font-size:13px}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+@media(max-width:880px){
+  .hero .shell{grid-template-columns:1fr}
+  .hero-visual{height:380px;order:-1}
+  .services{grid-template-columns:1fr}
+  .gallery{grid-template-columns:1fr 1fr}
+  .booking{grid-template-columns:1fr}
+  nav{display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="shell">
+    <div class="logo">AUR<span>U</span>M</div>
+    <nav>
+      <a href="#services">Услуги</a>
+      <a href="#gallery">Работы</a>
+      <a href="#booking">Запись</a>
+    </nav>
+    <a href="#booking" class="book-btn">Записаться</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="shell">
+    <div>
+      <div class="eyebrow">Студия красоты</div>
+      <h1>Уход, который <em>чувствуется</em><br>не только снаружи</h1>
+      <p>Косметология, массаж и уход за лицом в спокойной атмосфере. Индивидуальный подход и мастера с опытом от 7 лет.</p>
+      <div class="hero-cta">
+        <a href="#booking" class="btn-primary">Записаться на процедуру</a>
+        <a href="#services" class="btn-ghost">Все услуги</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="ring"></div>
+      <div class="ring ring2"></div>
+      <div class="badge"><div class="num">4.9</div><div class="lbl">рейтинг по 200+ отзывам</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="shell">
+    <div class="section-head">
+      <div class="eyebrow" style="display:flex">Услуги</div>
+      <h2>Подберём программу под вашу кожу</h2>
+      <p>Каждая процедура начинается с диагностики — без шаблонных назначений</p>
+    </div>
+    <div class="services">
+      <div class="service"><div class="ico">01</div><h3>Уход за лицом</h3><p>Чистка, пилинги, аппаратные методики, восстановление баланса кожи.</p><div class="price">от 3 200 ₽</div></div>
+      <div class="service"><div class="ico">02</div><h3>Массаж тела</h3><p>Расслабляющий, лимфодренажный, антицеллюлитный — по вашему запросу.</p><div class="price">от 2 800 ₽</div></div>
+      <div class="service"><div class="ico">03</div><h3>Косметология</h3><p>Инъекционные методики, биоревитализация, контурная коррекция.</p><div class="price">от 5 500 ₽</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="gallery" style="padding-top:0">
+  <div class="gallery">
+    <div class="gimg g1 reveal"><span>Кабинет процедур</span></div>
+    <div class="gimg g2 reveal"><span>Зона ожидания</span></div>
+    <div class="gimg g3 reveal"><span>Косметология</span></div>
+  </div>
+</section>
+
+<section class="quote-section">
+  <blockquote>«Впервые встретила специалиста, который сначала слушает, а потом предлагает — а не наоборот»</blockquote>
+  <div class="author">— Марина, клиент студии с 2023 года</div>
+</section>
+
+<section class="section" id="booking">
+  <div class="shell booking">
+    <div>
+      <div class="eyebrow">Запись</div>
+      <h2>Первый визит — с диагностикой кожи в подарок</h2>
+      <p>Оставьте контакты, мы подберём удобное время и подходящего мастера под ваш запрос.</p>
+      <div class="perk"><span class="dot"></span><span>Бесплатная консультация перед процедурой</span></div>
+      <div class="perk"><span class="dot"></span><span>Гипоаллергенная косметика премиум-класса</span></div>
+      <div class="perk"><span class="dot"></span><span>Уютный кабинет, никакой спешки</span></div>
+    </div>
+    <div class="form-card">
+      <h3>Записаться на приём</h3>
+      <div class="field"><label>Имя</label><input type="text" placeholder="Как вас зовут"></div>
+      <div class="field"><label>Телефон</label><input type="tel" placeholder="+7 (___) ___-__-__"></div>
+      <div class="field"><label>Процедура</label><select><option>Уход за лицом</option><option>Массаж тела</option><option>Косметология</option></select></div>
+      <button class="submit-btn">Записаться</button>
+    </div>
+  </div>
+</section>
+
+<footer>© Aurum — студия красоты. Концепт-проект.</footer>
+
+<script>
+const els = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:.2});
+els.forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

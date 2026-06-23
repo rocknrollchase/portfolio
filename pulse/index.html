@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulse — приложение для тренировок</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0c10; --bg2:#111419; --lime:#c8ff4d; --lime-dim:#8fbf2e; --ink:#fff; --muted:#8b94a3; --card:#151920}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif}
+.shell{max-width:1180px;margin:0 auto;padding:0 32px}
+a{color:inherit;text-decoration:none}
+
+header{position:fixed;top:0;left:0;right:0;z-index:50;padding:22px 0;background:rgba(10,12,16,.7);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06)}
+header .shell{display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:700;font-size:22px;letter-spacing:-.5px;display:flex;align-items:center;gap:8px}
+.logo .dot{width:10px;height:10px;border-radius:50%;background:var(--lime);box-shadow:0 0 16px var(--lime)}
+nav{display:flex;gap:32px}
+nav a{font-size:14px;color:var(--muted);transition:color .2s}
+nav a:hover{color:var(--ink)}
+.cta-pill{padding:11px 24px;background:var(--lime);color:#0a0c10;border-radius:100px;font-size:13px;font-weight:600}
+
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;padding-top:90px;
+  background:radial-gradient(1100px 700px at 75% 15%,rgba(200,255,77,.10),transparent 60%),var(--bg)}
+.hero .shell{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--lime);font-weight:600;letter-spacing:.5px;
+  border:1px solid rgba(200,255,77,.3);padding:8px 16px;border-radius:100px;margin-bottom:26px}
+.hero h1{font-size:clamp(40px,5.6vw,66px);line-height:1.05;font-weight:700;letter-spacing:-1.5px}
+.hero h1 .hl{color:var(--lime)}
+.hero p{margin-top:22px;font-size:18px;line-height:1.65;color:var(--muted);max-width:460px}
+.store-row{margin-top:36px;display:flex;gap:14px}
+.store-btn{display:flex;align-items:center;gap:10px;padding:13px 22px;background:var(--card);border:1px solid rgba(255,255,255,.1);border-radius:12px;font-size:14px;transition:border-color .25s}
+.store-btn:hover{border-color:rgba(200,255,77,.4)}
+.store-btn .ic{font-size:20px}
+
+.stat-row{margin-top:48px;display:flex;gap:40px}
+.stat .num{font-size:30px;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--ink)}
+.stat .lbl{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* phone mockup */
+.phone-wrap{display:flex;justify-content:center;position:relative}
+.phone{width:300px;height:610px;border-radius:42px;background:linear-gradient(165deg,#1a1f28,#0d1015);
+  border:1px solid rgba(255,255,255,.08);padding:12px;box-shadow:0 50px 100px rgba(0,0,0,.6),0 0 0 1px rgba(200,255,77,.06)}
+.screen{width:100%;height:100%;border-radius:30px;background:#0a0c10;overflow:hidden;display:flex;flex-direction:column}
+.s-top{padding:24px 22px 16px}
+.s-top .greet{font-size:13px;color:var(--muted)}
+.s-top .name{font-size:20px;font-weight:600;margin-top:4px}
+.ring-card{margin:0 22px;padding:24px;border-radius:18px;background:linear-gradient(145deg,#171c24,#11151b);display:flex;align-items:center;gap:20px}
+.progress-ring{width:84px;height:84px;border-radius:50%;background:conic-gradient(var(--lime) 0 72%, rgba(255,255,255,.08) 72% 100%);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.progress-ring i{width:64px;height:64px;border-radius:50%;background:#11151b;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;font-style:normal}
+.ring-card .t{font-size:14px;font-weight:600}
+.ring-card .s{font-size:12px;color:var(--muted);margin-top:3px}
+.row-cards{margin:18px 22px;display:flex;flex-direction:column;gap:10px}
+.mini-card{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;background:var(--card)}
+.mini-card .ic2{width:34px;height:34px;border-radius:10px;background:rgba(200,255,77,.14);color:var(--lime);display:flex;align-items:center;justify-content:center;font-size:15px}
+.mini-card .tt{font-size:13px;font-weight:600}
+.mini-card .ss{font-size:11px;color:var(--muted)}
+.tabbar{margin-top:auto;display:flex;justify-content:space-around;padding:16px 0;border-top:1px solid rgba(255,255,255,.06)}
+.tabbar .ti{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18)}
+.tabbar .ti.active{background:var(--lime)}
+.glow{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(200,255,77,.16),transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);z-index:-1}
+
+/* features */
+.section{padding:130px 0}
+.section-head{max-width:600px;margin:0 auto 64px;text-align:center}
+.section-head .kicker{display:inline-flex}
+.section-head h2{font-size:clamp(32px,4vw,44px);font-weight:700;letter-spacing:-1px}
+.section-head p{margin-top:16px;color:var(--muted);font-size:16px}
+
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat{padding:36px 30px;border-radius:18px;background:var(--card);border:1px solid rgba(255,255,255,.06);transition:border-color .25s,transform .25s}
+.feat:hover{border-color:rgba(200,255,77,.3);transform:translateY(-4px)}
+.feat .fic{width:44px;height:44px;border-radius:12px;background:rgba(200,255,77,.12);color:var(--lime);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:20px}
+.feat h3{font-size:19px;margin-bottom:10px}
+.feat p{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* cta */
+.cta-section{background:linear-gradient(135deg,#151b14,#0a0c10);border-radius:28px;margin:0 32px;padding:80px 60px;text-align:center;
+  border:1px solid rgba(200,255,77,.14);position:relative;overflow:hidden}
+.cta-section h2{font-size:clamp(30px,4vw,46px);font-weight:700;letter-spacing:-1px}
+.cta-section p{margin-top:16px;color:var(--muted);font-size:16px}
+.cta-section .store-row{justify-content:center;margin-top:32px}
+
+footer{padding:48px 0;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid rgba(255,255,255,.06);margin-top:60px}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+@media(max-width:880px){
+  .hero .shell{grid-template-columns:1fr}
+  .phone-wrap{order:-1;margin-bottom:20px}
+  .feat-grid{grid-template-columns:1fr}
+  nav{display:none}
+  .cta-section{margin:0 16px;padding:60px 28px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="shell">
+    <div class="logo"><span class="dot"></span>Pulse</div>
+    <nav>
+      <a href="#features">Возможности</a>
+      <a href="#plans">Тарифы</a>
+    </nav>
+    <a href="#download" class="cta-pill">Скачать</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="shell">
+    <div>
+      <div class="kicker">● Новое в App Store и Google Play</div>
+      <h1>Тренируйся <span class="hl">умнее</span>,<br>не дольше</h1>
+      <p>Персональные программы, трекинг прогресса и адаптивные тренировки, которые подстраиваются под вашу форму каждый день.</p>
+      <div class="store-row" id="download">
+        <a href="#" class="store-btn"><span class="ic">⌘</span> App Store</a>
+        <a href="#" class="store-btn"><span class="ic">▷</span> Google Play</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="num">120K+</div><div class="lbl">тренировок в неделю</div></div>
+        <div class="stat"><div class="num">4.8</div><div class="lbl">рейтинг в сторах</div></div>
+        <div class="stat"><div class="num">38</div><div class="lbl">программ для всех целей</div></div>
+      </div>
+    </div>
+    <div class="phone-wrap">
+      <div class="glow"></div>
+      <div class="phone">
+        <div class="screen">
+          <div class="s-top"><div class="greet">Доброе утро</div><div class="name">Алексей 👋</div></div>
+          <div class="ring-card">
+            <div class="progress-ring"><i>72%</i></div>
+            <div><div class="t">Дневная цель</div><div class="s">36 из 50 минут активности</div></div>
+          </div>
+          <div class="row-cards">
+            <div class="mini-card"><div class="ic2">🔥</div><div><div class="tt">Силовая — верх тела</div><div class="ss">45 мин · средняя нагрузка</div></div></div>
+            <div class="mini-card"><div class="ic2">🏃</div><div><div class="tt">Кардио-интервалы</div><div class="ss">20 мин · высокая нагрузка</div></div></div>
+            <div class="mini-card"><div class="ic2">🧘</div><div><div class="tt">Растяжка и восстановление</div><div class="ss">15 мин · низкая нагрузка</div></div></div>
+          </div>
+          <div class="tabbar">
+            <div class="ti active"></div><div class="ti"></div><div class="ti"></div><div class="ti"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="shell">
+    <div class="section-head">
+      <div class="kicker">Возможности</div>
+      <h2>Всё, что нужно для прогресса — в одном приложении</h2>
+      <p>Без лишних настроек: открыли приложение и начали тренировку</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal"><div class="fic">◎</div><h3>Адаптивные программы</h3><p>Нагрузка пересчитывается автоматически по вашему прогрессу и самочувствию.</p></div>
+      <div class="feat reveal"><div class="fic">▤</div><h3>Трекинг прогресса</h3><p>Графики силы, веса и выносливости — видно, что меняется неделя за неделей.</p></div>
+      <div class="feat reveal"><div class="fic">⏱</div><h3>Тренировки от 15 минут</h3><p>Короткие интенсивные сессии для дней, когда времени совсем мало.</p></div>
+      <div class="feat reveal"><div class="fic">♫</div><h3>Голосовой тренер</h3><p>Подсказки по технике и темпу прямо во время выполнения упражнений.</p></div>
+      <div class="feat reveal"><div class="fic">⛓</div><h3>Без оборудования</h3><p>Большая часть программ — с собственным весом, для дома и зала.</p></div>
+      <div class="feat reveal"><div class="fic">☄</div><h3>Синхронизация с часами</h3><p>Подключите Apple Watch или Wear OS для трекинга пульса в реальном времени.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="plans" style="padding-top:0">
+  <div class="cta-section">
+    <h2>Первая неделя — бесплатно</h2>
+    <p>Без привязки карты. Отмена в любой момент прямо в приложении.</p>
+    <div class="store-row">
+      <a href="#" class="store-btn"><span class="ic">⌘</span> App Store</a>
+      <a href="#" class="store-btn"><span class="ic">▷</span> Google Play</a>
+    </div>
+  </div>
+</section>
+
+<footer>© Pulse — приложение для тренировок. Концепт-проект.</footer>
+
+<script>
+const els = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:.2});
+els.forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

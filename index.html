@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Портфолио — веб-разработка и лендинги</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Manrope',sans-serif;background:#0a0e16;color:#fff;min-height:100vh;
+    background:radial-gradient(1000px 600px at 80% 10%,rgba(45,125,255,.18),transparent 60%),
+               radial-gradient(800px 600px at 10% 90%,rgba(124,92,255,.14),transparent 60%),#0a0e16;}
+  .wrap{max-width:1100px;margin:0 auto;padding:80px 32px}
+  h1{font-size:clamp(34px,5vw,56px);font-weight:800;letter-spacing:-1px;line-height:1.05}
+  .lead{margin-top:18px;color:#9fb0c9;font-size:20px;max-width:620px;line-height:1.6}
+  .grid{margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+  .card{display:block;text-decoration:none;color:inherit;border-radius:18px;overflow:hidden;
+    background:rgba(255,255,255,.04);border:1px solid rgba(140,180,255,.14);transition:transform .25s,border-color .25s}
+  .card:hover{transform:translateY(-6px);border-color:rgba(120,170,255,.45)}
+  .thumb{height:200px;background-size:cover;background-position:center top;border-bottom:1px solid rgba(140,180,255,.1)}
+  .meta{padding:22px}
+  .meta h3{font-size:22px;font-weight:700}
+  .meta p{margin-top:8px;color:#8ea3c2;font-size:15px;line-height:1.5}
+  .tags{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+  .tag{font-size:12px;padding:5px 12px;border-radius:8px;background:rgba(45,125,255,.12);color:#bcd6ff;border:1px solid rgba(80,150,255,.2)}
+  .go{margin-top:16px;display:inline-flex;align-items:center;gap:8px;color:#5aa2ff;font-weight:600;font-size:15px}
+  footer{margin-top:64px;color:#5d6b85;font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Портфолио</h1>
+  <p class="lead">Адаптивные лендинги и веб-приложения под ключ — вёрстка, анимации, 3D и оптимизация. Концепт-проекты, демонстрирующие подход к работе.</p>
+
+  <div class="grid">
+    <a class="card" href="voyago/" target="_blank" rel="noopener">
+      <div class="thumb" style="background-image:url('img/portfolio-voyago.png')"></div>
+      <div class="meta">
+        <h3>Voyago</h3>
+        <p>Лендинг SaaS-платформы для управления командировками и MICE. Адаптив, анимации при скролле, формы заявок.</p>
+        <div class="tags"><span class="tag">HTML/CSS/JS</span><span class="tag">Адаптив</span><span class="tag">Анимации</span></div>
+        <span class="go">Открыть →</span>
+      </div>
+    </a>
+
+    <a class="card" href="forge/" target="_blank" rel="noopener">
+      <div class="thumb" style="background-image:url('img/portfolio-forge.png')"></div>
+      <div class="meta">
+        <h3>Forge</h3>
+        <p>Сайт строительной и инжиниринговой студии. Полноэкранный герой, интерактивные элементы, современная типографика.</p>
+        <div class="tags"><span class="tag">HTML/CSS/JS</span><span class="tag">Адаптив</span><span class="tag">UI</span></div>
+        <span class="go">Открыть →</span>
+      </div>
+    </a>
+
+    <a class="card" href="kairos/" target="_blank" rel="noopener">
+      <div class="thumb" style="background-image:url('img/portfolio-kairos.png')"></div>
+      <div class="meta">
+        <h3>Kairos</h3>
+        <p>Арт-лендинг с интерактивной 3D-сценой на Three.js (WebGL): бронзовая скульптура, шейдеры, кинематографичный скролл.</p>
+        <div class="tags"><span class="tag">Three.js</span><span class="tag">WebGL</span><span class="tag">3D</span></div>
+        <span class="go">Открыть →</span>
+      </div>
+    </a>
+
+    <a class="card" href="aurum/" target="_blank" rel="noopener">
+      <div class="thumb" style="background-image:url('img/portfolio-aurum.png')"></div>
+      <div class="meta">
+        <h3>Aurum</h3>
+        <p>Лендинг студии красоты. Тёплая палитра, форма онлайн-записи, карточки услуг с ценами.</p>
+        <div class="tags"><span class="tag">HTML/CSS/JS</span><span class="tag">Форма записи</span><span class="tag">Локальный бизнес</span></div>
+        <span class="go">Открыть →</span>
+      </div>
+    </a>
+
+    <a class="card" href="pulse/" target="_blank" rel="noopener">
+      <div class="thumb" style="background-image:url('img/portfolio-pulse.png')"></div>
+      <div class="meta">
+        <h3>Pulse</h3>
+        <p>Продуктовый лендинг мобильного приложения для тренировок. Мокап телефона, статистика, тёмная тема.</p>
+        <div class="tags"><span class="tag">HTML/CSS/JS</span><span class="tag">App-лендинг</span><span class="tag">Тёмная тема</span></div>
+        <span class="go">Открыть →</span>
+      </div>
+    </a>
+  </div>
+
+  <footer>Концепт-проекты. Telegram-боты, автоматизация и веб-разработка под ключ.</footer>
+</div>
+</body>
+</html>
