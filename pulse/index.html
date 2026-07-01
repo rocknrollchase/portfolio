@@ -80,11 +80,17 @@ nav a:hover{color:var(--ink)}
 .feat p{font-size:14px;color:var(--muted);line-height:1.6}
 
 /* cta */
-.cta-section{background:linear-gradient(135deg,#151b14,#0a0c10);border-radius:28px;margin:0 32px;padding:80px 60px;text-align:center;
-  border:1px solid rgba(200,255,77,.14);position:relative;overflow:hidden}
+.cta-section{background:linear-gradient(135deg,#111a0f,#0a0c10);border-radius:28px;margin:0 32px;padding:90px 60px;text-align:center;
+  border:1px solid rgba(200,255,77,.25);position:relative;overflow:hidden;
+  box-shadow:0 0 120px rgba(200,255,77,.07) inset}
+.cta-section::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);
+  width:300px;height:300px;background:radial-gradient(circle,rgba(200,255,77,.18),transparent 70%);pointer-events:none}
 .cta-section h2{font-size:clamp(30px,4vw,46px);font-weight:700;letter-spacing:-1px}
+.cta-section .hl-badge{display:inline-block;background:var(--lime);color:#0a0c10;font-size:12px;font-weight:700;
+  letter-spacing:1px;padding:5px 14px;border-radius:100px;margin-bottom:24px;text-transform:uppercase}
 .cta-section p{margin-top:16px;color:var(--muted);font-size:16px}
 .cta-section .store-row{justify-content:center;margin-top:32px}
+.cta-section .store-btn{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.15)}
 
 footer{padding:48px 0;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid rgba(255,255,255,.06);margin-top:60px}
 
@@ -172,6 +178,7 @@ footer{padding:48px 0;text-align:center;color:var(--muted);font-size:13px;border
 
 <section class="section" id="plans" style="padding-top:0">
   <div class="cta-section">
+    <div class="hl-badge">Попробуй бесплатно</div>
     <h2>Первая неделя — бесплатно</h2>
     <p>Без привязки карты. Отмена в любой момент прямо в приложении.</p>
     <div class="store-row">

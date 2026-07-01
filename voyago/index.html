@@ -24,6 +24,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 body{background:var(--bg);color:var(--text-strong);font-family:var(--font-sans);overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
@@ -483,12 +484,12 @@ footer.site{background:var(--dark-panel-2);padding-block:24px;color:rgba(255,255
 </button>
 
 <script>
-// cookie banner
+// cookie banner — auto-accept on portfolio demo
 (function(){
   var banner = document.getElementById('cookie-banner');
-  if(localStorage.getItem('voyago_cookie_ok')){ banner.classList.add('hidden'); }
+  banner.classList.add('hidden');
+  localStorage.setItem('voyago_cookie_ok','1');
   document.getElementById('cookie-accept').addEventListener('click', function(){
-    localStorage.setItem('voyago_cookie_ok','1');
     banner.classList.add('hidden');
   });
 })();
@@ -523,7 +524,7 @@ FEATURES.forEach(function(text, i){
 
 var SECURITY = [
   { text: "Несколько этапов проверки от киберугроз", img: "assets/security-1.jpg" },
-  { text: "Инструменты для контроля кибербезопасности Security Events", img: "assets/security-2.jpg" },
+  { text: "Инструменты для контроля кибербезопасности и событий ИБ", img: "assets/security-2.jpg" },
   { text: "Мониторинг серверов", img: "assets/security-3.jpg" },
   { text: "2 независимых дата-центра в Москве и Санкт-Петербурге", img: "assets/security-4.jpg" },
   { text: "Международные стандарты безопасности", img: "assets/security-5.jpg" },
